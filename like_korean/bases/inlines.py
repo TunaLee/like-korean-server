@@ -2,8 +2,7 @@ from django.db import models
 from django.forms import Textarea
 
 from nested_inline.admin import NestedStackedInline, NestedTabularInline
-
-from template.utils.inlines import ReadOnlyFieldsMixin
+from like_korean.utils.inlines import ReadOnlyFieldsMixin
 
 
 class TabularInline(ReadOnlyFieldsMixin, NestedTabularInline):

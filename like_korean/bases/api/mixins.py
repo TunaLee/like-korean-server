@@ -9,7 +9,7 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
 # Local
-from template.utils.api.response import Response
+from like_korean.utils.api.response import Response
 
 
 @method_decorator(name='create', decorator=swagger_auto_schema(operation_id=_('생성')))

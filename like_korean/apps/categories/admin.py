@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Local
-from han_duck.apps.categories.models.index import Category
-from han_duck.bases.admin import Admin
+from like_korean.apps.categories.models.index import Category
+from like_korean.bases.admin import Admin
 
 
 @admin.register(Category)

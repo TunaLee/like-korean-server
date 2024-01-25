@@ -4,8 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend as DrfFilter
 from rest_framework.viewsets import GenericViewSet
 from url_filter.integrations.drf import DjangoFilterBackend as UrlFilter
 
-from template.bases.api import mixins
-from template.utils.paginations import StandardResultsSetPagination
+from like_korean.bases.api import mixins
+from like_korean.utils.paginations import StandardResultsSetPagination
 
 
 class MultiSerializerMixin:

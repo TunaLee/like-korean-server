@@ -1,10 +1,9 @@
 from rest_framework.permissions import BasePermission
 
-from superclub.apps.profiles.models import Profile
 
 
-class BoardGroupPermission(BasePermission):
-    def has_object_permission(self, request, view, obj):
+class UnitsPermission(BasePermission):
+    def has_permission(self, request, view):
         grade, profile = Profile.objects.get_grade_profile(club_id=obj.club.id, user=request.user)
 
         if view.action in ['board_group_board']:

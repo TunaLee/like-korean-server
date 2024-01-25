@@ -1,1 +1,1 @@
-from template.apps.users.models.index import User
+from like_korean.apps.users.models.index import User

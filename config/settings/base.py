@@ -13,8 +13,8 @@ from typing import List
 from corsheaders.defaults import default_methods
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-# han_duck/
-APPS_DIR = ROOT_DIR / "han_duck"
+# like_korean/
+APPS_DIR = ROOT_DIR / "like_korean"
 env = environ.Env()
 
 # ENVIRONMENT
@@ -159,8 +159,13 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "han_duck.apps.app_templates.apps.ViewsConfig",
-    "han_duck.apps.users.apps.UsersConfig",
+    "like_korean.apps.categories.apps.CategoriesConfig",
+    "like_korean.apps.languages.apps.LanguagesConfig",
+    "like_korean.apps.lectures.apps.LecturesConfig",
+    "like_korean.apps.level_tests.apps.LevelTestsConfig",
+    "like_korean.apps.nationalities.apps.NationalitiesConfig",
+    "like_korean.apps.payments.apps.PaymentsConfig",
+    "like_korean.apps.users.apps.UsersConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -168,7 +173,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "han_duck.contrib.sites.migrations"}
+MIGRATION_MODULES = {"sites": "like_korean.contrib.sites.migrations"}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -202,7 +207,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-    # {'NAME': 'han_duck.utils.validators.CustomPasswordValidator'},
+    # {'NAME': 'like_korean.utils.validators.CustomPasswordValidator'},
 ]
 
 # MIDDLEWARE
@@ -249,7 +254,7 @@ MEDIA_URL = "/media/"
 TEMPLATES = [
     {
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
-        "BACKEND": "django.han_duck.backends.django.DjangoTemplates",
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/en/dev/ref/settings/#dirs
         "DIRS": [str(APPS_DIR / "templates")],
         # https://docs.djangoproject.com/en/dev/ref/settings/#app-dirs
@@ -257,15 +262,15 @@ TEMPLATES = [
         "OPTIONS": {
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
-                "django.han_duck.context_processors.debug",
-                "django.han_duck.context_processors.request",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
-                "django.han_duck.context_processors.i18n",
-                "django.han_duck.context_processors.media",
-                "django.han_duck.context_processors.static",
-                "django.han_duck.context_processors.tz",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "han-duck.utils.context_processors.settings_context",
+                "like_korean.utils.context_processors.settings_context",
             ],
         },
     }
@@ -366,13 +371,13 @@ ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_ADAPTER = "han_duck.apps.users.adapters.AccountAdapter"
+ACCOUNT_ADAPTER = "like_korean.apps.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
-ACCOUNT_FORMS = {"signup": "han_duck.apps.users.forms.UserSignupForm"}
+ACCOUNT_FORMS = {"signup": "like_korean.apps.users.forms.UserSignupForm"}
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-SOCIALACCOUNT_ADAPTER = "han_duck.apps.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "like_korean.apps.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
-SOCIALACCOUNT_FORMS = {"signup": "han_duck.apps.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {"signup": "like_korean.apps.users.forms.UserSocialSignupForm"}
 
 # django-rest-framework
 # -------------------------------------------------------------------------------
@@ -383,7 +388,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
-    "EXCEPTION_HANDLER": "han_duck.utils.exception_handlers.custom_exception_handler",
+    "EXCEPTION_HANDLER": "like_korean.utils.exception_handlers.custom_exception_handler",
     "NON_FIELD_ERRORS_KEY": "non_field_errors",
 }
 
@@ -418,7 +423,7 @@ ADMIN_CHARTS_D3_JS_PATH = "bow/d3/d3.js"
 # ------------------------------------------------------------------------------------
 # https://drf-yasg.readthedocs.io/en/stable/settings.html
 SWAGGER_SETTINGS = {
-    "DEFAULT_AUTO_SCHEMA_CLASS": "han_duck.utils.api.schema.CustomAutoSchema",
+    "DEFAULT_AUTO_SCHEMA_CLASS": "like_korean.utils.api.schema.CustomAutoSchema",
     "SECURITY_DEFINITIONS": {
         "Token": {
             "type": "apiKey",

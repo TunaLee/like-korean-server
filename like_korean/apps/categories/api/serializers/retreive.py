@@ -1,8 +1,8 @@
 # Serializers
-from han_duck.apps.categories.models.index import Category
+from like_korean.apps.categories.models.index import Category
 
 # Models
-from han_duck.bases.api.serializers import ModelSerializer
+from like_korean.bases.api.serializers import ModelSerializer
 
 
 # Class Section

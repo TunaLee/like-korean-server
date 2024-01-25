@@ -26,7 +26,7 @@ wheels/
 *.egg
 
 # PyInstaller
-#  Usually these files are written by a python script from a han_duck
+#  Usually these files are written by a python script from a like_korean
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
@@ -165,7 +165,7 @@ typings/
 # Provided default Pycharm Run/Debug Configurations should be tracked by git
 # In case of local modifications made by Pycharm, use update-index command
 # for each changed file, like this:
-# git update-index --assume-unchanged .idea/han_duck.iml
+# git update-index --assume-unchanged .idea/like_korean.iml
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -320,7 +320,7 @@ Session.vim
 .netrwhist
 
 ### Project template
-han_duck/media/
+like_korean/media/
 
 .pytest_cache/
 

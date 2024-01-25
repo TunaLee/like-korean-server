@@ -3,12 +3,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 # Local
-from han_duck.bases.models import Model
+from like_korean.bases.models import Model
 
 
 class Nationality(Model):
     name = models.TextField(_('국적명'), unique=True)
-    eng_name = models.TextField(_('국적명(영어)'), unique=True)
+    notation_name = models.TextField(_('표기명'), unique=True)
 
 
     class Meta:

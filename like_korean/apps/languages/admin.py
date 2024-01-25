@@ -1,19 +1,19 @@
 from django.contrib import admin
 
-from template.apps.app_templates.models.index import Template
-from template.bases.admin import Admin
+# Local
+from like_korean.apps.languages.models import Language
+from like_korean.bases.admin import Admin
 
 
-@admin.register(Template)
-class TemplateView(Admin):
-    list_display = ('',)
-    search_fields = ('',)
-    readonly_fields = ('',)
+@admin.register(Language)
+class LanguageView(Admin):
+    list_display = ('name', 'notation_name')
+    search_fields = ('name', 'notation_name')
 
     fieldsets = (
-        ("정보", {"fields": ('',)}),
+        ("정보", {"fields": ('name', 'notation_name')}),
     )
 
     add_fieldsets = (
-        ("정보", {"fields": ('',)}),
+        ("정보", {"fields": ('name', 'notation_name')}),
     )

@@ -3,7 +3,7 @@ import django_filters
 from django_filters import CharFilter
 
 # Models
-from like_korean.apps.level_test.models.index import Test
+from like_korean.apps.level_tests.models.index import Test
 
 
 class QuestionFilter(django_filters.FilterSet):

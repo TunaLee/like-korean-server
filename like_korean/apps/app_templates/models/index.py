@@ -10,5 +10,5 @@ class Template(Model):
 
     class Meta:
         verbose_name = verbose_name_plural = _('템플릿')
-        db_table = 'han_duck'
+        db_table = 'like_korean'
         ordering = ['-created']

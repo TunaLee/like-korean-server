@@ -1,6 +1,6 @@
 from django.urls import path
 
-from template.apps.users.api.views import UserViewSet
+from like_korean.apps.users.api.views import UserViewSet
 
 app_name = "users"
 urlpatterns = [

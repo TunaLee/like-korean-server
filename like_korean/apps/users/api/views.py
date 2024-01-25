@@ -10,17 +10,17 @@ from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 
 # Serializers
-from template.apps.users.api.serializers import UserMeSerializer
-from template.apps.users.decorators import me_decorator
+from like_korean.apps.users.api.serializers import UserMeSerializer
+from like_korean.apps.users.decorators import me_decorator
 
 # Models
-from template.apps.users.models import User
+from like_korean.apps.users.models import User
 
 # Bases
-from template.bases.api.viewsets import GenericViewSet
+from like_korean.bases.api.viewsets import GenericViewSet
 
 # Utils
-from template.utils.api.response import Response
+from like_korean.utils.api.response import Response
 
 
 # Class Section

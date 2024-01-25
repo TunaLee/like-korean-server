@@ -1,19 +1,19 @@
 from django.contrib import admin
 
 # Local
-from han_duck.apps.nationalities.models.index import Nationality
-from han_duck.bases.admin import Admin
+from like_korean.apps.nationalities.models.index import Nationality
+from like_korean.bases.admin import Admin
 
 
 @admin.register(Nationality)
 class NationalityView(Admin):
-    list_display = ('name', 'eng_name')
-    search_fields = ('name', 'eng_name')
+    list_display = ('name', 'notation_name')
+    search_fields = ('name', 'notation_name')
 
     fieldsets = (
-        ("정보", {"fields": ('name', 'eng_name')}),
+        ("정보", {"fields": ('name', 'notation_name')}),
     )
 
     add_fieldsets = (
-        ("정보", {"fields": ('name', 'eng_name')}),
+        ("정보", {"fields": ('name', 'notation_name')}),
     )

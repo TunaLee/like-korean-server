@@ -1,6 +1,6 @@
 # Local
-from template.apps.users.models import User
-from template.bases.api.serializers import ModelSerializer
+from like_korean.apps.users.models import User
+from like_korean.bases.api.serializers import ModelSerializer
 
 
 class UserSerializer(ModelSerializer):

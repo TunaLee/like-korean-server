@@ -1,12 +1,11 @@
 # Django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
-# Local
 from django.utils.html import format_html
 
-from template.apps.users.models import User
-from template.bases.admin import Admin
+# Local
+from like_korean.apps.users.models import User
+from like_korean.bases.admin import Admin
 
 
 @admin.register(User)

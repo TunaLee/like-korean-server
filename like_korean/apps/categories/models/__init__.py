@@ -1,1 +1,1 @@
-from template.apps.app_templates.models.index import PostVideoView, ClubView, PostView
+from like_korean.apps.categories.models.index import Category

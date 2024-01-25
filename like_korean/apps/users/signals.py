@@ -5,9 +5,11 @@ from django.dispatch import receiver
 # Django Rest Framework
 from rest_framework.authtoken.models import Token
 
+
+
 # Local
-from template.apps.users.models import User
-from template.apps.users.api.serializers import UserSerializer
+from like_korean.apps.users.api.serializers import UserSerializer
+from like_korean.apps.users.models import User
 
 
 # 유저 객체 생성, 수정 후 동작하는 로직

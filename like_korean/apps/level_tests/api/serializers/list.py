@@ -1,6 +1,9 @@
 # Serializers
+from rest_framework import serializers
+from rest_framework.fields import IntegerField, CharField, BooleanField
+
 from like_korean.apps.lectures.models.index import LectureVideo, Lecture, Unit
-from like_korean.apps.level_test.models.index import Test, QuestionImage, Choice, Answer, Question
+from like_korean.apps.level_tests.models.index import Test, QuestionImage, Choice, Answer, Question
 
 # Models
 from like_korean.bases.api.serializers import ModelSerializer
@@ -9,33 +12,47 @@ from like_korean.bases.api.serializers import ModelSerializer
 # Class Section
 
 class QuestionImageSerializer(ModelSerializer):
+    imageUrl = CharField(source='image_url')
+
     class Meta:
         model = QuestionImage
-        fields = ('image_url',)
+        fields = ('imageUrl',)
+
+
 class AnswerListSerializer(ModelSerializer):
     class Meta:
         model = Answer
         fields = ('answer',)
 
-class ChoiceListSerializer(ModelSerializer):
 
+class ChoiceListSerializer(ModelSerializer):
     class Meta:
         model = Choice
-        fields = ('choice', )
+        fields = ('choice',)
 
 
 class QuestionListSerializer(ModelSerializer):
-    question_images = QuestionImageSerializer(many=True, read_only=True)
-    answers = AnswerListSerializer(many=True, read_only=True)
-    choices = ChoiceListSerializer(many=True, read_only=True)
+    questionNo = IntegerField(source='question_no')
+    questionText = CharField(source='question_text')
+    imageUrl = CharField(source='image_url')
+    audioUrl = CharField(source='audio_url')
+    isImage = BooleanField(source='is_image')
+    isAudio = BooleanField(source='is_audio')
+    isMultipleChoice = BooleanField(source='is_multiple_choice')
+    choiceData = ChoiceListSerializer(many=True, read_only=True)
+
     class Meta:
         model = Question
-        fields = ('question_no', 'question_text', 'question_images', 'answers', 'choices')
+        fields = ('questionNo', 'questionText', 'imageUrl', 'audioUrl', 'imageUrl', 'audioUrl', 'isImage', 'isAudio', 'isMultipleChoice', 'choiceData')
 
 
 class TestListSerializer(ModelSerializer):
-    quests = QuestionListSerializer(many=True, read_only=True)
+    questionData = QuestionListSerializer(many=True, read_only=True)
+    totalQuestion = serializers.SerializerMethodField()
 
     class Meta:
         model = Test
-        fields = ('name', 'quests')
+        fields = ('name', 'questionData', 'totalQuestion')
+
+    def get_totalQuestion(self, obj):
+        return obj.questions.filter(is_active=True).count()

@@ -1,6 +1,4 @@
 # Serializers
-from com_duck.apps.boards.models import Board
-from com_duck.bases.api.serializers import ModelSerializer
 
 
 # Models

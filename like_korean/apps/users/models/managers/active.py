@@ -1,5 +1,5 @@
 # Manager
-from template.apps.users.models.managers.objects import UserMainManager
+from like_korean.apps.users.models.managers.objects import UserMainManager
 
 
 # Class Section

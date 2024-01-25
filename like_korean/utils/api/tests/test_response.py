@@ -64,7 +64,7 @@ class TestResponse:
         drf_response = DrfResponse(
             data={"x": 2.0, "y": 3.0},
             status=200,
-            template_name="test-han_duck.html",
+            template_name="test-like_korean.html",
             headers={
                 "X-Test-Header": "Hello World",
             },
@@ -85,7 +85,7 @@ class TestResponse:
 
         # Most of data should be preserved
         assert ic(response.status_code == 201)
-        assert ic(response.template_name == "test-han_duck.html")
+        assert ic(response.template_name == "test-like_korean.html")
 
         headers = response._headers.keys()
         assert ic("X-Test-Header" not in headers)
