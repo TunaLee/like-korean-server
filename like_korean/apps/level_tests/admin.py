@@ -96,11 +96,11 @@ class QuestionView(Admin):
     inlines = (ChoiceInline, AnswerInline, QuestionImageInline, QuestionAudioInline)
 
     fieldsets = (
-        ("정보", {"fields": ('question_no', 'question_text', 'is_multiple_choice', 'is_image')}),
+        ("정보", {"fields": ('test', 'question_no', 'question_text', 'is_multiple_choice', 'is_image')}),
     )
 
     add_fieldsets = (
-        ("정보", {"fields": ('question_no', 'question_text', 'is_multiple_choice', 'is_image')}),
+        ("정보", {"fields": ('test', 'question_no', 'question_text', 'is_multiple_choice', 'is_image')}),
     )
 
 

@@ -78,6 +78,7 @@ USE_L10N = True
 USE_TZ = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
+ALLOWED_HOSTS = ['*']
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -395,7 +396,6 @@ REST_FRAMEWORK = {
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = default_methods
-
 # Your stuff...
 # ------------------------------------------------------------------------------
 
