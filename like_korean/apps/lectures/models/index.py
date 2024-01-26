@@ -63,7 +63,8 @@ class Lecture(Model,
 
 class LectureVideo(Model,
                    LectureVideoViewModelMixin):
-    def video_path(self, instance, filename):
+    @staticmethod
+    def video_path(instance, filename):
         upload_to = 'Lecture/Video/'
         time = strftime("%Y%m%dT%H%M%S", gmtime())
         ext = filename.split('.')[-1]

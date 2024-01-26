@@ -65,7 +65,8 @@ class Answer(Model):
 
 
 class QuestionAudio(Model):
-    def audio_path(self, instance, filename):
+    @staticmethod
+    def audio_path(instance, filename):
         upload_to = 'Question/Audio/'
         time = strftime("%Y%m%dT%H%M%S", gmtime())
         ext = filename.split('.')[-1]
@@ -84,7 +85,8 @@ class QuestionAudio(Model):
         super(QuestionAudio, self).save(*args, **kwargs)
 
 class QuestionImage(Model):
-    def image_path(self, instance, filename):
+    @staticmethod
+    def image_path(instance, filename):
         upload_to = 'Question/Image/'
         time = strftime("%Y%m%dT%H%M%S", gmtime())
         ext = filename.split('.')[-1]
