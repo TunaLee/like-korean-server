@@ -18,6 +18,8 @@ class Test(Model):
         db_table = 'tests'
         ordering = ['-created']
 
+    def __str__(self):
+        return self.name
 
 class Question(Model):
     test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)
