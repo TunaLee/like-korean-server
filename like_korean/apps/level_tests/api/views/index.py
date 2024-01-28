@@ -10,12 +10,13 @@ from rest_framework.filters import OrderingFilter
 from like_korean.apps.level_tests.api.serializers.create import TestResultCreateSerializer, TestResultResponseSerializer
 # Local
 from like_korean.apps.level_tests.api.serializers.list import TestListSerializer
+from like_korean.apps.level_tests.api.serializers.retrieve import TestResultRetrieveSerializer
 from like_korean.apps.level_tests.api.views.filters.test import TestFilter
 from like_korean.apps.level_tests.models.index import Question, Test, TestResult
 from like_korean.bases.api import mixins
 from like_korean.bases.api.viewsets import GenericViewSet
 from like_korean.utils.api.response import Response
-from like_korean.utils.decorators import list_decorator, create_decorator
+from like_korean.utils.decorators import list_decorator, create_decorator, retrieve_decorator
 
 
 # Class Section
@@ -42,10 +43,11 @@ class TestResultViewSet(
     queryset = TestResult.objects.all()
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     serializers = {
-        'default': TestResultCreateSerializer
+        'default': TestResultRetrieveSerializer,
+        'create': TestResultCreateSerializer
     }
 
-    @swagger_auto_schema(**create_decorator())
+    @swagger_auto_schema(**create_decorator('test-result'))
     def create(self, request, *args, **kwargs):
         name = request.data.get('testName')['name']
         test = Test.objects.get(name=name)
@@ -69,3 +71,16 @@ class TestResultViewSet(
             data=TestResultResponseSerializer(instance=test_result).data,
             message=_('ok')
         )
+
+    @swagger_auto_schema(**retrieve_decorator('test-result'))
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            instance = self.perform_create(serializer)
+            return Response(
+                status=status.HTTP_200_OK,
+                code=200,
+                data=TestResultResponseSerializer(instance=instance).data,
+                message=_('ok')
+            )
+

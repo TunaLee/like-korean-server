@@ -28,4 +28,4 @@ class TestResultCreateSerializer(ModelSerializer):
 class TestResultResponseSerializer(ModelSerializer):
     class Meta:
         model = TestResult
-        fields = ('score',)
+        fields = ('id', 'score',)
