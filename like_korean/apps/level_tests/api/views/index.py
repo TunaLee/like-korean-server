@@ -47,7 +47,8 @@ class TestResultViewSet(
 
     @swagger_auto_schema(**create_decorator())
     def create(self, request, *args, **kwargs):
-        test = Test.objects.get(name=request.data.get('name'))
+        name = request.data.get('testName')['name']
+        test = Test.objects.get(name=name)
         questions = test.questions.all()
         results = request.data.get('resultData')
         if len(questions) != len(results):
@@ -60,10 +61,11 @@ class TestResultViewSet(
         total_score = sum(
             question.score for question, result in zip(questions, results) if question.answer == result
         )
-        test_result = TestResult.objects.create(name=request.data.get('name'), score=total_score)
+        test_result = TestResult.objects.create(test=test, score=total_score)
 
         return Response(
             status=status.HTTP_200_OK,
             code=200,
-            data=TestResultResponseSerializer(instance=test_result).data
+            data=TestResultResponseSerializer(instance=test_result).data,
+            message=_('ok')
         )

@@ -66,6 +66,7 @@ class Choice(Model):
             if self.is_correct:
                 self.question.answer = self.choice
             self.question.is_multiple_choice = True
+            self.question.save()
         super(Choice, self).save(*args, **kwargs)
 
     class Meta:
@@ -87,6 +88,7 @@ class Answer(Model):
         if self.question:
             self.question.answer = self.answer
             self.question.is_multiple_choice = False
+            self.question.save()
 
 
 class QuestionAudio(Model):
@@ -112,7 +114,7 @@ class QuestionImage(Model):
 
 
 class TestResult(Model):
-    Test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test_results')
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test_results')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='test_results', null=True, blank=True)
     score = models.IntegerField(_('점수'), null=True, blank=True)
 

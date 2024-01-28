@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from rest_framework.fields import ListField, CharField
 
-from like_korean.apps.level_tests.models.index import TestResult
+from like_korean.apps.level_tests.models.index import TestResult, Test
 from like_korean.bases.api.serializers import ModelSerializer
 
 
@@ -10,16 +10,20 @@ from like_korean.bases.api.serializers import ModelSerializer
 
 
 # Class Section
+class TestNameSerializer(ModelSerializer):
+    class Meta:
+        model = Test
+        fields = ('name',)
+
+
 class TestResultCreateSerializer(ModelSerializer):
-    name = serializers.SerializerMethodField()
+    testName = TestNameSerializer(read_only=True)
     resultData = ListField(child=CharField())
 
     class Meta:
         model = TestResult
-        fields = ('name', 'resultData')
+        fields = ('testName', 'resultData')
 
-    def get_name(self, obj):
-        return obj.tests.name
 
 class TestResultResponseSerializer(ModelSerializer):
     class Meta:
