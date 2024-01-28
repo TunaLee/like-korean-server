@@ -1,5 +1,6 @@
 # Django
 import os
+import uuid
 from time import strftime, gmtime
 
 from django.db import models
@@ -114,6 +115,7 @@ class QuestionImage(Model):
 
 
 class TestResult(Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test_results')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='test_results', null=True, blank=True)
     score = models.IntegerField(_('점수'), null=True, blank=True)

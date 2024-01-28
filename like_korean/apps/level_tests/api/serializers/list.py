@@ -58,7 +58,7 @@ class TestListSerializer(ModelSerializer):
         fields = ('name', 'questionData', 'totalQuestion')
 
     def get_questionData(self, obj):
-        return QuestionListSerializer(instance=obj.questions, many=True).data
+        return QuestionListSerializer(instance=obj.questions.all().order_by('question_no'), many=True).data
 
     def get_totalQuestion(self, obj):
         return obj.questions.filter(is_active=True).count()
