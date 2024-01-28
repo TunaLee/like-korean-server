@@ -94,25 +94,16 @@ class QuestionAudio(Model):
     audio = models.FileField(_('오디오'), upload_to=question_audio_path)
     audio_url = models.URLField(_('오디오 URL'), null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        if self.question:
-            self.question.is_audio = True
-            self.question.audio_url = self.audio_url
-
-        super(QuestionAudio, self).save(*args, **kwargs)
+    class Meta:
+        verbose_name = verbose_name_plural = _('문제 오디오')
+        db_table = 'question_audios'
+        ordering = ['-created']
 
 
 class QuestionImage(Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question_images')
     image = models.ImageField(_('이미지'), upload_to=question_image_path)
     image_url = models.URLField(_('이미지 URL'), null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        if self.question:
-            self.question.is_image = True
-            self.question.image_url = self.image_url
-
-        super(QuestionImage, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = verbose_name_plural = _('문제 이미지')
