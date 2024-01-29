@@ -91,16 +91,16 @@ class ChoiceAdmin(Admin):
 
 @admin.register(Question)
 class QuestionView(Admin):
-    list_display = ('test__name', 'question_no', 'question_text', 'is_multiple_choice', 'is_image', 'score')
-    search_fields = ('test__name__icontains', 'question_no', 'question_text__icontains', 'score')
+    list_display = ('test__name', 'question_no', 'question_text', 'is_multiple_choice', 'is_image', 'score', 'difficulty')
+    search_fields = ('test__name__icontains', 'question_no', 'question_text__icontains', 'score', 'difficulty')
     inlines = (ChoiceInline, AnswerInline, QuestionImageInline, QuestionAudioInline)
 
     fieldsets = (
-        ("정보", {"fields": ('test', 'question_no', 'question_text', 'is_multiple_choice', 'is_image', 'score')}),
+        ("정보", {"fields": ('test', 'question_no', 'question_text', 'is_multiple_choice', 'is_image', 'score', 'difficulty')}),
     )
 
     add_fieldsets = (
-        ("정보", {"fields": ('test', 'question_no', 'question_text', 'is_multiple_choice', 'is_image', 'score')}),
+        ("정보", {"fields": ('test', 'question_no', 'question_text', 'is_multiple_choice', 'is_image', 'score', 'difficulty')}),
     )
 
 

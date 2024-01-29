@@ -74,13 +74,11 @@ class TestResultViewSet(
 
     @swagger_auto_schema(**retrieve_decorator('test-result'))
     def retrieve(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            instance = self.perform_create(serializer)
-            return Response(
-                status=status.HTTP_200_OK,
-                code=200,
-                data=TestResultResponseSerializer(instance=instance).data,
-                message=_('ok')
-            )
+        instance = self.get_object()
+        return Response(
+            status=status.HTTP_200_OK,
+            code=200,
+            data=TestResultResponseSerializer(instance=instance).data,
+            message=_('ok')
+        )
 

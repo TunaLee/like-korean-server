@@ -46,6 +46,7 @@ class Question(Model):
     audio_url = models.TextField(_('오디오 url'), null=True, blank=True)
     answer = models.TextField(_('정답'), null=True, blank=True)
     score = models.PositiveSmallIntegerField(_('점수'), default=0)
+    difficulty = models.PositiveSmallIntegerField(_('문제 난이도'), null=True, blank=True)
 
     is_multiple_choice = models.BooleanField(_('객관식 여부'), default=True)
     is_image = models.BooleanField(_('이미지 여부'), default=False)
