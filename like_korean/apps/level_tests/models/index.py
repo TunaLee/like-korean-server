@@ -5,12 +5,18 @@ from time import strftime, gmtime
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from model_utils import Choices
 
 # Local
 from like_korean.apps.users.forms import User
 from like_korean.bases.models import Model
 
-
+QUESTION_CATEGORIES = Choices(
+    ('GRAMMAR', _('문법')),
+    ('READING', _('읽기')),
+    ('WRITING', _('쓰기')),
+    ('SPEAKING', _('읽기')),
+)
 def file_path(path, filename):
     time = strftime("%Y%m%dT%H%M%S", gmtime())
     ext = filename.split('.')[-1]
@@ -47,6 +53,7 @@ class Question(Model):
     answer = models.TextField(_('정답'), null=True, blank=True)
     score = models.PositiveSmallIntegerField(_('점수'), default=0)
     difficulty = models.PositiveSmallIntegerField(_('문제 난이도'), null=True, blank=True)
+    category = models.TextField(_('문제 유형'), choices=QUESTION_CATEGORIES, null=True, blank=True)
 
     is_multiple_choice = models.BooleanField(_('객관식 여부'), default=True)
     is_image = models.BooleanField(_('이미지 여부'), default=False)

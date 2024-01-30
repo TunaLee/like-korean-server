@@ -10,7 +10,8 @@ class TestFilter(django_filters.FilterSet):
     name = CharFilter(field_name='name')
     difficulty = CharFilter(field_name='questions__difficulty')
     score = CharFilter(field_name='questions__score')
+    category = CharFilter(field_name='questions__category')
 
     class Meta:
         model = Test
-        fields = ['name', 'difficulty', 'score']
+        fields = ['name', 'difficulty', 'score', 'category']
