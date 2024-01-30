@@ -15,7 +15,8 @@ QUESTION_CATEGORIES = Choices(
     ('GRAMMAR', _('문법')),
     ('READING', _('읽기')),
     ('WRITING', _('쓰기')),
-    ('SPEAKING', _('읽기')),
+    ('SPEAKING', _('말하기')),
+    ('LISTENING', _('듣기')),
 )
 def file_path(path, filename):
     time = strftime("%Y%m%dT%H%M%S", gmtime())
