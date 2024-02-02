@@ -52,7 +52,7 @@ class Question(Model):
     image_url = models.TextField(_('이미지 url'), null=True, blank=True)
     audio_url = models.TextField(_('오디오 url'), null=True, blank=True)
     answer = models.TextField(_('정답'), null=True, blank=True)
-    score = models.PositiveSmallIntegerField(_('점수'), default=0)
+    score = models.PositiveSmallIntegerField(_('점수'), default=5)
     difficulty = models.PositiveSmallIntegerField(_('문제 난이도'), null=True, blank=True)
     category = models.TextField(_('문제 유형'), choices=QUESTION_CATEGORIES, null=True, blank=True)
 
