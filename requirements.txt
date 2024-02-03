@@ -45,7 +45,7 @@ django-health-check==3.17.0
 
 # Django Admin
 # ------------------------------------------------------------------------------
-https://github.com/leoyunhyung/django-jet/archive/dev.zip
+https://github.com/Barukimang/django-jet/archive/dev.zip
 django-reorder-admin==0.3.1
 django-admin-relation-links==0.2.5
 django-nested-admin==3.4.0
