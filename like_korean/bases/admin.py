@@ -51,9 +51,7 @@ class RelatedFieldAdminMixin:
     def __getattr__(self, name):
         if "__" in name:
             return _related_field(self.model, name)
-        if hasattr(super(), "__getattr__"):
-            return super().__getattr__(name)
-        return name
+        return super().__getattr__(name)
 
 
 def extend_fields(fields, front_fields=[], back_fields=[]):
