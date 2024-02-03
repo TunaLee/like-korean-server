@@ -1,7 +1,6 @@
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 from django.forms import Textarea
-from django.http import HttpRequest
 from django.utils.translation import ugettext_lazy as _
 from django.apps import apps
 from django.contrib import admin
@@ -68,11 +67,11 @@ class InlineActionsModelAdminMixin(InlineActionsModelAdminMixin):
 
 
 class Admin(
+    RelatedFieldAdminMixin,
     NestedModelAdmin,
-    # InlineActionsModelAdminMixin,
+    InlineActionsModelAdminMixin,
     ImportExportModelAdmin,
     AdminChangeLinksMixin,
-    RelatedFieldAdminMixin,
     ReverseModelAdmin,
 ):
     list_filter = (("created", DateRangeFilter),)
