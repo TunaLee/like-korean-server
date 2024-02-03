@@ -67,12 +67,12 @@ class InlineActionsModelAdminMixin(InlineActionsModelAdminMixin):
 
 
 class Admin(
-    RelatedFieldAdminMixin,
     NestedModelAdmin,
     InlineActionsModelAdminMixin,
     ImportExportModelAdmin,
     AdminChangeLinksMixin,
     ReverseModelAdmin,
+    RelatedFieldAdminMixin,
 ):
     list_filter = (("created", DateRangeFilter),)
     list_per_page = 10
