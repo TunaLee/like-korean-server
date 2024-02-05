@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from like_korean.apps.level_tests.models import Test, Question, Choice, Answer, QuestionImage, QuestionAudio
+from like_korean.apps.level_tests.models.index import TestCategory
 from like_korean.bases.admin import Admin
 from like_korean.bases.inlines import StackedInline
 
@@ -106,6 +107,20 @@ class QuestionView(Admin):
 
 @admin.register(Test)
 class TestView(Admin):
+    list_display = ('category__name', 'name', 'attempt_count', 'avg_score')
+    search_fields = ('category__name', 'name', 'attempt_count', 'avg_score')
+
+    fieldsets = (
+        ("정보", {"fields": ('category', 'name',)}),
+    )
+
+    add_fieldsets = (
+        ("정보", {"fields": ('category', 'name',)}),
+    )
+
+
+@admin.register(TestCategory)
+class TestCategoryView(Admin):
     list_display = ('name',)
     search_fields = ('name',)
 

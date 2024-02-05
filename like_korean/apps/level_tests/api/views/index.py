@@ -5,7 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Third Party
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 
 from like_korean.apps.level_tests.api.serializers.create import TestResultCreateSerializer, TestResultResponseSerializer
 # Local
@@ -20,6 +20,22 @@ from like_korean.utils.decorators import list_decorator, create_decorator, retri
 
 
 # Class Section
+class LevelTestViewSet(
+    mixins.ListModelMixin,
+    GenericViewSet
+):
+    serializers = {
+        'default': TestListSerializer
+    }
+    queryset = Test.objects.filter(name='level test')
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = TestFilter
+
+    @swagger_auto_schema(**list_decorator(title=_('레벨 테스트 문제 목록'), serializer=TestListSerializer))
+    def list(self, request, *args, **kwargs):
+        return super().list(self, request, *args, **kwargs)
+
+
 class TestViewSet(
     mixins.ListModelMixin,
     GenericViewSet
@@ -27,8 +43,8 @@ class TestViewSet(
     serializers = {
         'default': TestListSerializer
     }
-    queryset = Test.objects.all()
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    queryset = Test.objects.filter(name__icontains='MockExam')
+    filter_backends = (DjangoFilterBackend,)
     filter_class = TestFilter
 
     @swagger_auto_schema(**list_decorator(title=_('문제 목록'), serializer=TestListSerializer))
@@ -81,4 +97,3 @@ class TestResultViewSet(
             data=TestResultResponseSerializer(instance=instance).data,
             message=_('ok')
         )
-

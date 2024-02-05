@@ -18,6 +18,8 @@ QUESTION_CATEGORIES = Choices(
     ('SPEAKING', _('말하기')),
     ('LISTENING', _('듣기')),
 )
+
+
 def file_path(path, filename):
     time = strftime("%Y%m%dT%H%M%S", gmtime())
     ext = filename.split('.')[-1]
@@ -33,8 +35,23 @@ def question_image_path(instance, filename):
     return file_path('Question/Image/', filename)
 
 
+class TestCategory(Model):
+    name = models.TextField(_('시험 카테고리'), unique=True)
+
+    class Meta:
+        verbose_name = verbose_name_plural = _('시험 카테고리')
+        db_table = 'test_categories'
+        ordering = ['-created']
+
+    def __str__(self):
+        return self.name
+
+
 class Test(Model):
+    category = models.ForeignKey(TestCategory, null=True, blank=True, related_name='tests', on_delete=models.CASCADE)
     name = models.TextField(_('시험명'), null=True, blank=True)
+    attempt_count = models.IntegerField(_('응시 횟수'), default=0)
+    avg_score = models.FloatField(_('평균 점수'), null=True, blank=True)
 
     class Meta:
         verbose_name = verbose_name_plural = _('Test')
