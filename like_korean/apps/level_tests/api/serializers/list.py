@@ -54,10 +54,11 @@ class TestListSerializer(ModelSerializer):
     totalQuestion = serializers.SerializerMethodField()
     attemptCount = IntegerField(source='attempt_count')
     avgScore = FloatField(source='avg_score')
+    testCategory = CharField(source='category')
 
     class Meta:
         model = Test
-        fields = ('name', 'questionData', 'totalQuestion', 'attemptCount', 'avgScore')
+        fields = ('name', 'questionData', 'totalQuestion', 'attemptCount', 'avgScore', 'testCategory')
 
     def get_questionData(self, obj):
         return QuestionListSerializer(instance=obj.questions.all().order_by('question_no'), many=True).data

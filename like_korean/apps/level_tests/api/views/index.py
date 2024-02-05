@@ -43,7 +43,7 @@ class TestViewSet(
     serializers = {
         'default': TestListSerializer
     }
-    queryset = Test.objects.filter(name__icontains='MockExam')
+    queryset = Test.objects.filter(name__icontains='EPSTOPIK')
     filter_backends = (DjangoFilterBackend,)
     filter_class = TestFilter
 
