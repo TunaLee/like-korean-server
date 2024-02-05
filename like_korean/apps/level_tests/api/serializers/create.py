@@ -10,14 +10,9 @@ from like_korean.bases.api.serializers import ModelSerializer
 
 
 # Class Section
-class TestNameSerializer(ModelSerializer):
-    class Meta:
-        model = Test
-        fields = ('name',)
-
 
 class TestResultCreateSerializer(ModelSerializer):
-    testName = TestNameSerializer(read_only=True)
+    testName = CharField(source='test.name', read_only=True)
     resultData = ListField(child=CharField())
 
     class Meta:
@@ -26,6 +21,7 @@ class TestResultCreateSerializer(ModelSerializer):
 
 
 class TestResultResponseSerializer(ModelSerializer):
+    testName = CharField(source='test.name', read_only=True)
     class Meta:
         model = TestResult
-        fields = ('id', 'score',)
+        fields = ('id', 'score', 'testName')

@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from rest_framework.fields import IntegerField, CharField, BooleanField, FloatField
 
-from like_korean.apps.level_tests.models.index import Test, QuestionImage, Choice, Answer, Question
+from like_korean.apps.level_tests.models.index import Test, QuestionImage, Choice, Answer, Question, TestCategory
 
 # Models
 from like_korean.bases.api.serializers import ModelSerializer
@@ -49,19 +49,32 @@ class QuestionListSerializer(ModelSerializer):
         return ChoiceListSerializer(instance=obj.choices, many=True).data
 
 
-class TestListSerializer(ModelSerializer):
+class LevelTestListSerializer(ModelSerializer):
     questionData = serializers.SerializerMethodField()
     totalQuestion = serializers.SerializerMethodField()
-    attemptCount = IntegerField(source='attempt_count')
-    avgScore = FloatField(source='avg_score')
-    testCategory = CharField(source='category')
 
     class Meta:
         model = Test
-        fields = ('name', 'questionData', 'totalQuestion', 'attemptCount', 'avgScore', 'testCategory')
+        fields = ('name', 'questionData', 'totalQuestion')
 
     def get_questionData(self, obj):
         return QuestionListSerializer(instance=obj.questions.all().order_by('question_no'), many=True).data
 
     def get_totalQuestion(self, obj):
         return obj.questions.filter(is_active=True).count()
+
+
+class TestListSerializer(ModelSerializer):
+    attemptCount = IntegerField(source='attempt_count')
+    avgScore = FloatField(source='avg_score')
+    testCategory = CharField(source='category')
+
+    class Meta:
+        model = Test
+        fields = ('id', 'name', 'attemptCount', 'avgScore', 'testCategory')
+
+
+class TestCategoryListSerializer(ModelSerializer):
+    class Meta:
+        model = TestCategory
+        fields = ('name',)

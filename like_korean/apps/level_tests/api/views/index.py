@@ -5,14 +5,15 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Third Party
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.filters import OrderingFilter
 
 from like_korean.apps.level_tests.api.serializers.create import TestResultCreateSerializer, TestResultResponseSerializer
 # Local
-from like_korean.apps.level_tests.api.serializers.list import TestListSerializer
-from like_korean.apps.level_tests.api.serializers.retrieve import TestResultRetrieveSerializer
+from like_korean.apps.level_tests.api.serializers.list import TestListSerializer, TestCategoryListSerializer, \
+    LevelTestListSerializer
+from like_korean.apps.level_tests.api.serializers.retrieve import TestResultRetrieveSerializer, TestRetrieveSerializer
 from like_korean.apps.level_tests.api.views.filters.test import TestFilter
-from like_korean.apps.level_tests.models.index import Question, Test, TestResult
+from like_korean.apps.level_tests.models.index import Test, TestResult, TestCategory
 from like_korean.bases.api import mixins
 from like_korean.bases.api.viewsets import GenericViewSet
 from like_korean.utils.api.response import Response
@@ -25,7 +26,7 @@ class LevelTestViewSet(
     GenericViewSet
 ):
     serializers = {
-        'default': TestListSerializer
+        'default': LevelTestListSerializer
     }
     queryset = Test.objects.filter(name='level test')
     filter_backends = (DjangoFilterBackend,)
@@ -38,10 +39,12 @@ class LevelTestViewSet(
 
 class TestViewSet(
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
     GenericViewSet
 ):
     serializers = {
-        'default': TestListSerializer
+        'default': TestListSerializer,
+        'retrieve': TestRetrieveSerializer
     }
     queryset = Test.objects.filter(name__icontains='EPSTOPIK')
     filter_backends = (DjangoFilterBackend,)
@@ -51,6 +54,9 @@ class TestViewSet(
     def list(self, request, *args, **kwargs):
         return super().list(self, request, *args, **kwargs)
 
+    @swagger_auto_schema(**retrieve_decorator(title=_('문제 상세 조회'), serializer=TestRetrieveSerializer))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(self, request, *args, **kwargs)
 
 class TestResultViewSet(
     mixins.CreateModelMixin,
@@ -65,7 +71,7 @@ class TestResultViewSet(
 
     @swagger_auto_schema(**create_decorator('test-result'))
     def create(self, request, *args, **kwargs):
-        name = request.data.get('testName')['name']
+        name = request.data.get('testName')
         test = Test.objects.get(name=name)
         questions = test.questions.all()
         results = request.data.get('resultData')
@@ -97,3 +103,18 @@ class TestResultViewSet(
             data=TestResultResponseSerializer(instance=instance).data,
             message=_('ok')
         )
+
+
+class TestCategoryViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin
+):
+    queryset = TestCategory.objects.all()
+    serializers = {
+        'default': TestCategoryListSerializer
+    }
+
+    @swagger_auto_schema(**list_decorator(title=_('테스트 카테고리 목록'), serializer=TestCategoryListSerializer))
+    def list(self, request, *args, **kwargs):
+        return super().list(self, request, *args, **kwargs)
+
