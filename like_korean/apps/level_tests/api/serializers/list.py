@@ -1,6 +1,6 @@
 # Serializers
 from rest_framework import serializers
-from rest_framework.fields import IntegerField, CharField, BooleanField
+from rest_framework.fields import IntegerField, CharField, BooleanField, FloatField
 
 from like_korean.apps.level_tests.models.index import Test, QuestionImage, Choice, Answer, Question
 
@@ -52,10 +52,12 @@ class QuestionListSerializer(ModelSerializer):
 class TestListSerializer(ModelSerializer):
     questionData = serializers.SerializerMethodField()
     totalQuestion = serializers.SerializerMethodField()
+    attemptCount = IntegerField(source='attempt_count')
+    avgScore = FloatField(source='avg_score')
 
     class Meta:
         model = Test
-        fields = ('name', 'questionData', 'totalQuestion')
+        fields = ('name', 'questionData', 'totalQuestion', 'attemptCount', 'avgScore')
 
     def get_questionData(self, obj):
         return QuestionListSerializer(instance=obj.questions.all().order_by('question_no'), many=True).data

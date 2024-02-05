@@ -155,6 +155,7 @@ class TestResult(Model):
         if self.test and self.score:
             self.test.attempt_count += 1
             self.test.avg_score = float((self.test.avg_score + self.score) / self.test.attempt_count)
+            self.test.save()
 
         super(TestResult, self).save(*args, **kwargs)
 
