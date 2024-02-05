@@ -51,7 +51,7 @@ class Test(Model):
     category = models.ForeignKey(TestCategory, null=True, blank=True, related_name='tests', on_delete=models.CASCADE)
     name = models.TextField(_('시험명'), null=True, blank=True)
     attempt_count = models.IntegerField(_('응시 횟수'), default=0)
-    avg_score = models.FloatField(_('평균 점수'), null=True, blank=True)
+    avg_score = models.FloatField(_('평균 점수'), default=0)
 
     class Meta:
         verbose_name = verbose_name_plural = _('Test')
@@ -150,3 +150,11 @@ class TestResult(Model):
         verbose_name = verbose_name_plural = _('시험 결과')
         db_table = 'test_results'
         ordering = ['-created']
+
+    def save(self, *args, **kwargs):
+        if self.test and self.score:
+            self.test.attempt_count += 1
+            self.test.avg_score = float((self.test.avg_score + self.score) / self.test.attempt_count)
+
+        super(TestResult, self).save(*args, **kwargs)
+

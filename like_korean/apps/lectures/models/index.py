@@ -70,7 +70,6 @@ class Lecture(Model,
         ordering = ['-created']
 
     def save(self, *args, **kwargs):
-        # Set club_name
         if self.category:
             self.category_id = self.category.id
 
