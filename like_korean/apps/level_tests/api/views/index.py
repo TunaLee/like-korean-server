@@ -73,7 +73,7 @@ class TestResultViewSet(
     def create(self, request, *args, **kwargs):
         name = request.data.get('testName')
         test = Test.objects.get(name=name)
-        questions = test.questions.all().order_by('-id')
+        questions = test.questions.all().order_by('id')
         results = request.data.get('resultData')
         if len(questions) != len(results):
             return Response(
