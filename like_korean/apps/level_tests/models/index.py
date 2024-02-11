@@ -35,6 +35,10 @@ def question_image_path(instance, filename):
     return file_path('Question/Image/', filename)
 
 
+def choice_image_path(instance, filename):
+    return file_path('Choice/Image/', filename)
+
+
 class TestCategory(Model):
     name = models.TextField(_('시험 카테고리'), unique=True)
 
@@ -87,6 +91,9 @@ class Choice(Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
     choice = models.TextField(_('선택지'), null=False, blank=False)
     is_correct = models.BooleanField(_('정답 여부'), default=False)
+    is_image = models.BooleanField(_('이미지 여부'), default=False)
+    image = models.ImageField(_('이미지'), upload_to=choice_image_path, null=True, blank=True)
+    image_url = models.URLField(_('이미지 URL'), null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.question:
@@ -94,6 +101,9 @@ class Choice(Model):
                 self.question.answer = self.choice
             self.question.is_multiple_choice = True
             self.question.save()
+
+        if self.image:
+            self.is_image = True
         super(Choice, self).save(*args, **kwargs)
 
     class Meta:
@@ -158,4 +168,3 @@ class TestResult(Model):
             self.test.save()
 
         super(TestResult, self).save(*args, **kwargs)
-

@@ -25,9 +25,12 @@ class AnswerListSerializer(ModelSerializer):
 
 
 class ChoiceListSerializer(ModelSerializer):
+    imageUrl = CharField(source='image_url')
+    isImage = BooleanField(source='is_image')
+
     class Meta:
         model = Choice
-        fields = ('choice',)
+        fields = ('choice', 'isImage', 'imageUrl')
 
 
 class QuestionListSerializer(ModelSerializer):

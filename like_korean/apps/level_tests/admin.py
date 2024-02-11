@@ -25,7 +25,7 @@ class QuestionAudioInline(StackedInline):
 class ChoiceInline(StackedInline):
     model = Choice
     fieldsets = (
-        ("Choice", {"fields": ('choice', 'is_correct')}),
+        ("Choice", {"fields": ('choice', 'image', 'is_correct')}),
     )
     extra = 0
 
