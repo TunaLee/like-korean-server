@@ -30,7 +30,7 @@ class ChoiceListSerializer(ModelSerializer):
 
     class Meta:
         model = Choice
-        fields = ('choice', 'isImage', 'imageUrl')
+        fields = ('id', 'choice', 'isImage', 'imageUrl')
 
 
 class QuestionListSerializer(ModelSerializer):

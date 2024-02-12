@@ -98,7 +98,7 @@ class Choice(Model):
     def save(self, *args, **kwargs):
         if self.question:
             if self.is_correct:
-                self.question.answer = self.choice
+                self.question.answer = self.id
             self.question.is_multiple_choice = True
             self.question.save()
 
