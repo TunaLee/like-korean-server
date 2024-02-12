@@ -89,7 +89,7 @@ class Question(Model):
 
 class Choice(Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
-    choice = models.TextField(_('선택지'), null=False, blank=False)
+    choice = models.TextField(_('선택지'), null=True, blank=True)
     is_correct = models.BooleanField(_('정답 여부'), default=False)
     is_image = models.BooleanField(_('이미지 여부'), default=False)
     image = models.ImageField(_('이미지'), upload_to=choice_image_path, null=True, blank=True)
