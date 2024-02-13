@@ -168,3 +168,17 @@ class TestResult(Model):
             self.test.save()
 
         super(TestResult, self).save(*args, **kwargs)
+
+
+class Solving(Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='solvings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='solvings', null=True, blank=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='solvings')
+    is_solved = models.BooleanField(_('정답 유무'))
+    description = models.TextField(_('오답 설명'), null=True, blank=True)
+
+    class Meta:
+        verbose_name = verbose_name_plural = _('문제 풀이')
+        db_table = 'solvings'
+        ordering = ['-created']
+

@@ -1,4 +1,5 @@
 # Django
+from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -13,7 +14,7 @@ from like_korean.apps.level_tests.api.serializers.list import TestListSerializer
     LevelTestListSerializer
 from like_korean.apps.level_tests.api.serializers.retrieve import TestResultRetrieveSerializer, TestRetrieveSerializer
 from like_korean.apps.level_tests.api.views.filters.test import TestFilter
-from like_korean.apps.level_tests.models.index import Test, TestResult, TestCategory
+from like_korean.apps.level_tests.models.index import Test, TestResult, TestCategory, Solving
 from like_korean.bases.api import mixins
 from like_korean.bases.api.viewsets import GenericViewSet
 from like_korean.utils.api.response import Response
@@ -70,7 +71,9 @@ class TestResultViewSet(
     }
 
     @swagger_auto_schema(**create_decorator('test-result'))
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
+        user = request.user if request.user.is_authenticated else None
         name = request.data.get('testName')
         test = Test.objects.get(name=name)
         questions = test.questions.all().order_by('id')
@@ -81,11 +84,15 @@ class TestResultViewSet(
                 code=400,
                 message=_('error'),
             )
+        total_score = 0
+        solved_questions = []
+        for question, result in zip(questions, results):
+            is_solved = question.answer == str(result)
+            total_score += question.score if is_solved else 0
+            solved_questions.append(Solving(test=test, question=question, is_solved=is_solved, user=user))
 
-        total_score = sum(
-            question.score for question, result in zip(questions, results) if question.answer == result
-        )
         test_result = TestResult.objects.create(test=test, score=total_score)
+        Solving.objects.bulk_create(solved_questions)
 
         return Response(
             status=status.HTTP_200_OK,
