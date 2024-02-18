@@ -1,6 +1,4 @@
-# Python
-import os
-from time import strftime, gmtime
+
 
 # Django
 from django.db import models
@@ -10,13 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from like_korean.apps.lectures.models.mixins_lecture.image import LectureImageModelMixin
 from like_korean.apps.lectures.models.mixins_lecture_video.view import LectureVideoViewModelMixin
 from like_korean.bases.models import Model
-
-
-def file_path(path, filename):
-    time = strftime("%Y%m%dT%H%M%S", gmtime())
-    ext = filename.split('.')[-1]
-    filename = f'{time}.{ext}'
-    return os.path.join(path, filename)
+from like_korean.utils.file_path import file_path
 
 
 def lecture_video_path(instance, filename):

@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
+from like_korean.apps.nationalities.models import Nationality
 from like_korean.apps.users.models.fields.phone_number import CustomPhoneNumberField
 # Bases
 
@@ -24,6 +25,7 @@ class User(AbstractUser,
     username = models.CharField(_('닉네임'), unique=True, max_length=100, null=True, blank=True)
     phone = CustomPhoneNumberField(_('전화'), max_length=20, null=True, blank=True)
 
+    nationality = models.ForeignKey(Nationality, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
     language = models.ForeignKey('languages.Language', on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
 
     USERNAME_FIELD = 'email'

@@ -10,6 +10,7 @@ from model_utils import Choices
 # Local
 from like_korean.apps.users.forms import User
 from like_korean.bases.models import Model
+from like_korean.utils.file_path import file_path
 
 QUESTION_CATEGORIES = Choices(
     ('GRAMMAR', _('문법')),
@@ -19,12 +20,6 @@ QUESTION_CATEGORIES = Choices(
     ('LISTENING', _('듣기')),
 )
 
-
-def file_path(path, filename):
-    time = strftime("%Y%m%dT%H%M%S", gmtime())
-    ext = filename.split('.')[-1]
-    filename = f'{time}.{ext}'
-    return os.path.join(path, filename)
 
 
 def question_audio_path(instance, filename):

@@ -13,3 +13,8 @@ class UserMeSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ('',)
+
+class UserSignUpSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password', 'nationality')

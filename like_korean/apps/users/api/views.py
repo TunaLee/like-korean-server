@@ -37,3 +37,6 @@ class UserViewSet(GenericViewSet):
             message=_('ok'),
             data=UserMeSerializer(instance=request.user).data
         )
+
+    # @action(detail=False, methods=['post'])
+    # def signup(self, request):
