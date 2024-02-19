@@ -22,7 +22,7 @@ class User(AbstractUser,
            ImageModelMixin,
            Model):
     email = models.EmailField(_('이메일'), unique=True, null=True, blank=True)
-    username = models.CharField(_('닉네임'), unique=True, max_length=100, null=True, blank=True)
+    username = models.CharField(_('닉네임'), max_length=100, null=True, blank=True)
     phone = CustomPhoneNumberField(_('전화'), max_length=20, null=True, blank=True)
 
     nationality = models.ForeignKey(Nationality, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')

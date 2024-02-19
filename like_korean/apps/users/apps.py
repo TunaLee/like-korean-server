@@ -8,6 +8,6 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         try:
-            import template.apps.users.signals  # noqa F401
+            import like_korean.apps.users.signals  # noqa F401
         except ImportError:
             pass

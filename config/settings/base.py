@@ -141,6 +141,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.kakao",
     "allauth.socialaccount.providers.apple",
+    "allauth.socialaccount.providers.google",
 
     # django-rest-framework
     "rest_framework",

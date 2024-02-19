@@ -31,3 +31,17 @@ def signup_decorator(title='', request_body=None):
         responses={201: openapi.Response(_('ok'))},
         tags=[_(f'{title}')]
     )
+
+def signin_decorator(title='', request_body=None):
+    return dict(
+        operation_id=_('로그인'),
+        operation_description=_(
+            '## < 로그인 API 입니다. > \n'
+            '### 1. Try it out \n'
+            '### 2. parameter 입력 \n'
+            '### 3. Execute \n'
+        ),
+        request_body=request_body,
+        responses={200: openapi.Response(_('ok'))},
+        tags=[_(f'{title}')]
+    )

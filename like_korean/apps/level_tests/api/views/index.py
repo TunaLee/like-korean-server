@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.filters import OrderingFilter
+from rest_framework.permissions import IsAuthenticated
 
 from like_korean.apps.level_tests.api.serializers.create import TestResultCreateSerializer, TestResultResponseSerializer
 # Local
@@ -50,6 +51,7 @@ class TestViewSet(
     queryset = Test.objects.filter(name__icontains='EPSTOPIK')
     filter_backends = (DjangoFilterBackend,)
     filter_class = TestFilter
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(**list_decorator(title=_('문제 목록'), serializer=TestListSerializer))
     def list(self, request, *args, **kwargs):

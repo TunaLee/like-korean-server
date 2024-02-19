@@ -1,14 +1,17 @@
 # Django
+import os
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 # Local
 from like_korean.bases.models import Model
-from like_korean.utils.file_path import file_path
 
+def file_path(path, filename):
+    return os.path.join(path, filename.split('.')[0].split('/')[-1])
 
 def nationality_image_path(instance, filename):
-    return file_path('Nationality/Image/', filename)
+    return file_path('Nationality/', filename)
 
 
 class Nationality(Model):
