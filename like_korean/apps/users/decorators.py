@@ -5,16 +5,16 @@ from django.utils.translation import gettext_lazy as _
 from drf_yasg import openapi
 
 
-def me_decorator(title='', serializer=None):
+def validate_email_decorator(title=''):
     return dict(
-        operation_id=_('내 정보'),
+        operation_id=_('이메일 중복 확인'),
         operation_description=_(
-            '## < 내 정보 조회 API 입니다. > \n'
-            '### ★ Authorization Token 입력 ★ \n'
+            '## < 이메일 중복 확인 API 입니다. > \n'
             '### 1. Try it out \n'
-            '### 2. Execute \n'
+            '### 2. parameter 입력 \n'
+            '### 3. Execute \n'
         ),
-        responses={200: openapi.Response(_('ok'), serializer)},
+        responses={200: openapi.Response(_('ok'))},
         tags=[_(f'{title}')]
     )
 

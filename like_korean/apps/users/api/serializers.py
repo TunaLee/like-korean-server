@@ -10,13 +10,7 @@ from like_korean.bases.api.serializers import ModelSerializer
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('',)
-
-
-class UserMeSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('',)
+        fields = ('email',)
 
 class UserSignUpSerializer(ModelSerializer):
     email = EmailField(required=True, write_only=True, validators=[UniqueValidator(queryset=User.objects.all())])

@@ -11,39 +11,50 @@ from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 
 # Serializers
-from like_korean.apps.users.api.serializers import UserMeSerializer, UserSignUpSerializer, UserSignInSerializer
-from like_korean.apps.users.decorators import me_decorator, signup_decorator, signin_decorator
+from like_korean.apps.users.api.serializers import UserSignUpSerializer, UserSignInSerializer, \
+    UserSerializer
+from like_korean.apps.users.decorators import signup_decorator, signin_decorator, validate_email_decorator
 
 # Models
 from like_korean.apps.users.models import User
+from like_korean.bases.api import mixins
 
 # Bases
 from like_korean.bases.api.viewsets import GenericViewSet
 
 # Utils
 from like_korean.utils.api.response import Response
+from like_korean.utils.decorators import retrieve_decorator
 
 
 # Class Section
-class UserViewSet(GenericViewSet):
+class UserViewSet(GenericViewSet,
+                  mixins.RetrieveModelMixin):
     queryset = User.active.all()
     filter_backends = (DjangoFilterBackend,)
 
     serializers = {
-        'default': UserMeSerializer,
+        'default': UserSerializer,
         'signup': UserSignUpSerializer,
         'signin': UserSignInSerializer
     }
-
-    @swagger_auto_schema(**me_decorator(title=_('유저'), serializer=UserMeSerializer))
+    @swagger_auto_schema(**validate_email_decorator(title=_('유저')))
     @action(detail=False, methods=['get'])
-    def me(self, request):
-        return Response(
-            status=status.HTTP_200_OK,
-            code=200,
-            message=_('ok'),
-            data=UserMeSerializer(instance=request.user).data
-        )
+    def validate_email(self, request, *args, **kwargs):
+        email = request.query_params.get('email')
+        if not User.objects.filter(email=email).exists():
+            return Response(
+                message=_('validate email'),
+                status=status.HTTP_200_OK,
+                code=200
+            )
+        else:
+            return Response(
+                message=_('duplicate email address'),
+                status=status.HTTP_400_BAD_REQUEST,
+                code=400
+            )
+
 
     @swagger_auto_schema(**signup_decorator(title=_('유저'), request_body=UserSignUpSerializer))
     @action(detail=False, methods=['post'])
