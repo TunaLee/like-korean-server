@@ -42,6 +42,11 @@ class Command(BaseCommand):
     #                 self.stdout.write(self.style.WARNING(f'Nationality already exists: {nationality}'))
 
     def handle(self, *args, **kwargs):
+        # nationalities = Nationality.objects.all()
+        # for nationality in nationalities:
+        #     if nationality.image:
+        #         nationality.image_url = nationality.image.url
+        #         nationality.save()
         # CSV 파일의 경로
         filename = 'like_korean/data/nationalities.csv'
 
@@ -62,3 +67,4 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.SUCCESS(f'Created Nationality: {nationality}'))
                 else:
                     self.stdout.write(self.style.WARNING(f'Nationality already exists: {nationality}'))
+

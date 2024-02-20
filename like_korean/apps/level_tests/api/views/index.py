@@ -12,10 +12,10 @@ from rest_framework.permissions import IsAuthenticated
 from like_korean.apps.level_tests.api.serializers.create import TestResultCreateSerializer, TestResultResponseSerializer
 # Local
 from like_korean.apps.level_tests.api.serializers.list import TestListSerializer, TestCategoryListSerializer, \
-    LevelTestListSerializer
+    LevelTestListSerializer, SolvingListSerializer, QuestionListSerializer
 from like_korean.apps.level_tests.api.serializers.retrieve import TestResultRetrieveSerializer, TestRetrieveSerializer
-from like_korean.apps.level_tests.api.views.filters.test import TestFilter
-from like_korean.apps.level_tests.models.index import Test, TestResult, TestCategory, Solving
+from like_korean.apps.level_tests.api.views.filters.test import TestFilter, QuestionFilter
+from like_korean.apps.level_tests.models.index import Test, TestResult, TestCategory, Solving, Question
 from like_korean.bases.api import mixins
 from like_korean.bases.api.viewsets import GenericViewSet
 from like_korean.utils.api.response import Response
@@ -60,6 +60,7 @@ class TestViewSet(
     @swagger_auto_schema(**retrieve_decorator(title=_('문제 상세 조회'), serializer=TestRetrieveSerializer))
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(self, request, *args, **kwargs)
+
 
 class TestResultViewSet(
     mixins.CreateModelMixin,
@@ -127,3 +128,40 @@ class TestCategoryViewSet(
     def list(self, request, *args, **kwargs):
         return super().list(self, request, *args, **kwargs)
 
+
+class SolvingViewSet(
+    mixins.ListModelMixin,
+    GenericViewSet
+):
+    serializers = {
+        'default': SolvingListSerializer,
+    }
+    permission_classes = [IsAuthenticated]
+    queryset = Solving.objects.all()
+
+    def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return None
+        queryset = Solving.objects.filter(user=self.request.user)
+        return queryset
+
+    @swagger_auto_schema(**list_decorator(title=_('푼 문제 목록'), serializer=SolvingListSerializer))
+    def list(self, request, *args, **kwargs):
+        return super().list(self, request, *args, **kwargs)
+
+
+class QuestionViewSet(
+    mixins.ListModelMixin,
+    GenericViewSet
+):
+    serializers = {
+        'default': QuestionListSerializer
+    }
+    permission_classes = [IsAuthenticated]
+    queryset = Question.objects.all()
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    filter_class = QuestionFilter
+
+    @swagger_auto_schema(**list_decorator(title=_('문제 목록'), serializer=QuestionListSerializer))
+    def list(self, request, *args, **kwargs):
+        return super().list(self, request, *args, **kwargs)

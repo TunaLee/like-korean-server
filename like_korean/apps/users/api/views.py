@@ -12,8 +12,8 @@ from drf_yasg.utils import swagger_auto_schema
 
 # Serializers
 from like_korean.apps.users.api.serializers import UserSignUpSerializer, UserSignInSerializer, \
-    UserSerializer
-from like_korean.apps.users.decorators import signup_decorator, signin_decorator, validate_email_decorator
+    UserSerializer, UserMeSerializer, UserValidateEmailSerializer
+from like_korean.apps.users.decorators import signup_decorator, signin_decorator, validate_email_decorator, me_decorator
 
 # Models
 from like_korean.apps.users.models import User
@@ -24,7 +24,7 @@ from like_korean.bases.api.viewsets import GenericViewSet
 
 # Utils
 from like_korean.utils.api.response import Response
-from like_korean.utils.decorators import retrieve_decorator
+from like_korean.utils.decorators import retrieve_decorator, list_decorator
 
 
 # Class Section
@@ -35,9 +35,27 @@ class UserViewSet(GenericViewSet,
 
     serializers = {
         'default': UserSerializer,
+        'validate_email': UserValidateEmailSerializer,
+        'me': UserMeSerializer,
         'signup': UserSignUpSerializer,
         'signin': UserSignInSerializer
     }
+
+    @swagger_auto_schema(**list_decorator(title=_('유저'), serializer=UserSerializer))
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().order_by('-correct_solved')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(
+            message=_('ok'),
+            status=status.HTTP_200_OK,
+            code=200,
+            data=serializer.data
+        )
+
     @swagger_auto_schema(**validate_email_decorator(title=_('유저')))
     @action(detail=False, methods=['get'])
     def validate_email(self, request, *args, **kwargs):
@@ -55,6 +73,15 @@ class UserViewSet(GenericViewSet,
                 code=400
             )
 
+    @swagger_auto_schema(**me_decorator(title=_('유저'), serializer=UserMeSerializer))
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        return Response(
+            status=status.HTTP_200_OK,
+            code=200,
+            message=_('ok'),
+            data=UserMeSerializer(instance=request.user).data
+        )
 
     @swagger_auto_schema(**signup_decorator(title=_('유저'), request_body=UserSignUpSerializer))
     @action(detail=False, methods=['post'])
@@ -93,4 +120,3 @@ class UserViewSet(GenericViewSet,
                 status=status.HTTP_201_CREATED,
                 data={'token': token.key}
             )
-

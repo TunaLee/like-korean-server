@@ -58,7 +58,9 @@ class Test(Model):
 
     def __str__(self):
         return self.name
-
+    def save(self, *args, **kwargs):
+        super(Question, self).save(*args, **kwargs)
+        self.solvings.exclude(test_name=self.name).update(test_name=self.name)
 
 class Question(Model):
     test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)
@@ -70,6 +72,9 @@ class Question(Model):
     score = models.PositiveSmallIntegerField(_('점수'), default=5)
     difficulty = models.PositiveSmallIntegerField(_('문제 난이도'), null=True, blank=True)
     category = models.TextField(_('문제 유형'), choices=QUESTION_CATEGORIES, null=True, blank=True)
+    attempt_count = models.IntegerField(_('응시 횟수'), default=0)
+    correct_count = models.IntegerField(_('정답 횟수'), default=0)
+
 
     is_multiple_choice = models.BooleanField(_('객관식 여부'), default=True)
     is_image = models.BooleanField(_('이미지 여부'), default=False)
@@ -79,6 +84,11 @@ class Question(Model):
         verbose_name = verbose_name_plural = _('문항')
         db_table = 'questions'
         ordering = ['-created']
+
+    def save(self, *args, **kwargs):
+        super(Question, self).save(*args, **kwargs)
+        self.solvings.exclude(question_name=self.name).update(question_name=self.name)
+
 
 
 class Choice(Model):
@@ -168,6 +178,9 @@ class Solving(Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='solvings')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='solvings', null=True, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='solvings')
+
+    test_name = models.TextField(_('테스트 이름'), null=True, blank=True)
+    question_name = models.TextField(_('문제 이름'), null=True, blank=True)
     is_solved = models.BooleanField(_('정답 유무'))
     description = models.TextField(_('오답 설명'), null=True, blank=True)
 
@@ -175,4 +188,15 @@ class Solving(Model):
         verbose_name = verbose_name_plural = _('문제 풀이')
         db_table = 'solvings'
         ordering = ['-created']
+
+    def save(self, *args, **kwargs):
+        if self.test:
+            self.test_name = self.test.name
+        if self.question:
+            self.question_name = self.question.name
+            self.question.attempt_count += 1
+            if self.is_solved:
+                self.question.correct_count += 1
+
+        super(Solving, self).save(*args, **kwargs)
 

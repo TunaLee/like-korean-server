@@ -1,8 +1,9 @@
 # Serializers
 from rest_framework import serializers
-from rest_framework.fields import IntegerField, CharField, BooleanField, FloatField
+from rest_framework.fields import IntegerField, CharField, BooleanField, FloatField, SerializerMethodField
 
-from like_korean.apps.level_tests.models.index import Test, QuestionImage, Choice, Answer, Question, TestCategory
+from like_korean.apps.level_tests.models.index import Test, QuestionImage, Choice, Answer, Question, TestCategory, \
+    Solving
 
 # Models
 from like_korean.bases.api.serializers import ModelSerializer
@@ -33,7 +34,7 @@ class ChoiceListSerializer(ModelSerializer):
         fields = ('id', 'choice', 'isImage', 'imageUrl')
 
 
-class QuestionListSerializer(ModelSerializer):
+class QuestionDetailSerializer(ModelSerializer):
     questionNo = IntegerField(source='question_no')
     questionText = CharField(source='question_text')
     imageUrl = CharField(source='image_url')
@@ -61,7 +62,7 @@ class LevelTestListSerializer(ModelSerializer):
         fields = ('name', 'questionData', 'totalQuestion')
 
     def get_questionData(self, obj):
-        return QuestionListSerializer(instance=obj.questions.all().order_by('question_no'), many=True).data
+        return QuestionDetailSerializer(instance=obj.questions.all().order_by('question_no'), many=True).data
 
     def get_totalQuestion(self, obj):
         return obj.questions.filter(is_active=True).count()
@@ -81,3 +82,19 @@ class TestCategoryListSerializer(ModelSerializer):
     class Meta:
         model = TestCategory
         fields = ('name',)
+
+
+class SolvingListSerializer(ModelSerializer):
+    testName = CharField(source='test_name')
+    questionName = CharField(source='question_name')
+    class Meta:
+        model = Solving
+        fields = ('testName', 'questionName', 'test', 'question')
+
+
+class QuestionListSerializer(ModelSerializer):
+    testName = CharField(source='test.name')
+    questionText = CharField(source='question_text')
+    class Meta:
+        model = Question
+        fields = ('testName', 'questionText', 'difficulty', 'category')

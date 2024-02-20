@@ -24,6 +24,8 @@ class User(AbstractUser,
     email = models.EmailField(_('이메일'), unique=True, null=True, blank=True)
     username = models.CharField(_('닉네임'), max_length=100, null=True, blank=True)
     phone = CustomPhoneNumberField(_('전화'), max_length=20, null=True, blank=True)
+    total_solved = models.PositiveIntegerField(_('총 시도한 문제 갯수'), default=0)
+    correct_solved = models.PositiveIntegerField(_('밎은 문제 갯수'), default=0)
 
     nationality = models.ForeignKey(Nationality, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
     language = models.ForeignKey('languages.Language', on_delete=models.SET_NULL, null=True, blank=True, related_name='users')

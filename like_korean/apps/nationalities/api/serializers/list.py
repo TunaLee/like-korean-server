@@ -10,6 +10,7 @@ from like_korean.bases.api.serializers import ModelSerializer
 # Class Section
 class NationalityListSerializer(ModelSerializer):
     imageUrl = CharField(source='image_url')
+    engName = CharField(source='eng_name')
     class Meta:
         model = Nationality
-        fields = ('id', 'name', 'imageUrl')
+        fields = ('id', 'engName', 'imageUrl')
