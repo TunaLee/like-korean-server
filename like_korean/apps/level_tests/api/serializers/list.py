@@ -95,6 +95,8 @@ class SolvingListSerializer(ModelSerializer):
 class QuestionListSerializer(ModelSerializer):
     testName = CharField(source='test.name')
     questionText = CharField(source='question_text')
+    attemptCount = IntegerField(source='attempt_count')
+    correctCount = IntegerField(source='correct_count')
     class Meta:
         model = Question
-        fields = ('testName', 'questionText', 'difficulty', 'category')
+        fields = ('id', 'testName', 'questionText', 'difficulty', 'category', 'attemptCount', 'correctCount')

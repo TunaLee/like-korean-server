@@ -158,9 +158,9 @@ class QuestionViewSet(
         'default': QuestionListSerializer
     }
     permission_classes = [IsAuthenticated]
-    queryset = Question.objects.all()
-    filter_backends = (DjangoFilterBackend, OrderingFilter)
-    filter_class = QuestionFilter
+    queryset = Question.objects.all().order_by('id')
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = QuestionFilter
 
     @swagger_auto_schema(**list_decorator(title=_('문제 목록'), serializer=QuestionListSerializer))
     def list(self, request, *args, **kwargs):
