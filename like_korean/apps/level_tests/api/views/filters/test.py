@@ -22,7 +22,6 @@ class TestFilter(django_filters.FilterSet):
 class QuestionFilter(django_filters.FilterSet):
     category = CharFilter(method='filter_category')
     difficulty = CharFilter(method='filter_difficulty')
-    # difficulty = CharFilter(field_name='difficulty')
     isSolved = CharFilter(method='filter_isSolved')
 
     class Meta:
